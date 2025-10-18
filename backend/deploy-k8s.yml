@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: buamtech-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: buamtech-backend
+  template:
+    metadata:
+      labels:
+        app: buamtech-backend
+    spec:
+      containers:
+        - name: buamtech-backend
+          image: buamtech/backend:latest
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: buamtech-backend-service
+spec:
+  selector:
+    app: buamtech-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer

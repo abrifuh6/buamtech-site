@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: buamtech
+      POSTGRES_PASSWORD: buamtech123
+      POSTGRES_DB: buamtechdb
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/buamtechdb
+    depends_on:
+      - postgres
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
